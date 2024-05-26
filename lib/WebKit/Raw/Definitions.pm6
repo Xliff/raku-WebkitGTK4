@@ -22,6 +22,7 @@ class WebKitInputMethodContext                    is export is repr<CPointer> do
 class WebKitNetworkSession                        is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitSettings                              is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitURIRequest                            is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitURIResponse                           is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitUserContentManager                    is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitUserMessage                           is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitWebContext                            is export is repr<CPointer> does GLib::Roles::Pointers { }

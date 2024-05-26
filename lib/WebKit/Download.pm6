@@ -118,6 +118,26 @@ class WebKit::Download {
     );
   }
 
+  method Created-Destination {
+    self.connect-string($!wd, 'created-destination');
+  }
+
+  method Decide-Destination {
+    self.connect-string($!wd, 'decide-destination');
+  }
+
+  method Failed {
+    self.connect-error($!wd, 'failed');
+  }
+
+  method Finished {
+    self.connect($!wd, 'finished');
+  }
+
+  method Received-Data {
+    self.connect-ulong($!wd, 'received-data');
+  }
+
   method cancel {
     webkit_download_cancel($!wd);
   }

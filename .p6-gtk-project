@@ -1,4 +1,4 @@
-prefix=Webkit
+prefix=WebKit
 struct-prefix=WebKit
 modules=WebKit::Raw::Types
 backups=backup,bitbucket,google-backup,azure-backup,hut

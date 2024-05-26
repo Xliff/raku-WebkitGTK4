@@ -1,0 +1,12 @@
+prefix=Webkit
+struct-prefix=WebKit
+modules=WebKit::Raw::Types
+backups=backup,bitbucket,google-backup,azure-backup,hut
+hfile-prefix=
+lib=webkit
+include-directory=/usr/include/webkitgtk-6.0/webkit
+exec=p6gtk4exec
+subprefixes=
+idir-avail=True
+extension=.h
+build-exclude=WebKit::Raw::Traps

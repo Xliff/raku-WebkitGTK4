@@ -29,6 +29,10 @@ sub MAIN (
     .Str.subst("\n", ' ', :g).subst(/\s+/, ' ', :g)
   }
 
+  my $control-io = $control.starts-with('/')
+    ?? $control.IO
+    !! %config<include-directory>.IO.add($control);
+
   if $control ~~ / ^ 'http's?'://' / {
     $control ~~ / 'http' s? '://' <-[\#]>+ /;
     my $new_prefix = $/.Str;
@@ -76,7 +80,7 @@ sub MAIN (
 
       %signals{$mn} = ( :$udm, :$mn, :$v, :$s-sig, :$rt ).Hash;
     }
-  } elsif ( my $control-io = %config<include-directory>.IO.add($control) ) {
+  } elsif $control-io.r {
     say 'Reading from file...';
 
     # If it's a readable file, we have to do things the (James) Hardway
@@ -149,6 +153,8 @@ sub MAIN (
         rt    => .<rt>.&trimIt,
       ).Hash;
     }
+  } else {
+    die "Could not find a file at `{ $control-io.absolute }`";
   }
 
   # Output in-class handlers

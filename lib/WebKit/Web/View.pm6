@@ -7,6 +7,7 @@ use WebKit::Raw::Types:ver<4>;
 use WebKit::Raw::Web::View:ver<4>;
 
 use GTK::Widget:ver<4>;
+use WebKit::Web::Inspector:ver<4>;
 
 use GLib::Roles::Implementor;
 
@@ -189,17 +190,41 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     webkit_web_view_download_uri($!wv, $uri);
   }
 
-  method evaluate_javascript (
-    Str                 $script,
-    gssize              $length,
-    Str                 $world_name,
-    Str                 $source_uri,
-    GCancellable        $cancellable,
-                        &callback,
-    gpointer            $user_data
+  proto method evaluate_javascript (|)
+  { * }
+
+  multi method evaluate_javascript (
+    Str()            $script,
+    Int()           :l(:$length)                     = -1,
+    Str()           :name(:world-name(:$world_name)) = Str,
+    Str()           :uri(:source-uri(:$source_uri))  = Str,
+    GCancellable()  :$cancellable                    = GCancellable
+                    :&callback                       = Callable,
+    gpointer        :data(:$user_data)               = gpointer
+  ) {
+    samewith(
+      $script,
+      $length,
+      $world_name,
+      $source_uri,
+      $cancellable,
+      &callback,
+      $user_data
+    );
+  }
+  multi method evaluate_javascript (
+    Str()           $script,
+    Int()           $length,
+    Str()           $world_name,
+    Str()           $source_uri,
+    GCancellable()  $cancellable,
+                    &callback,
+    gpointer        $user_data    = gpointer
   )
     is also<evaluate-javascript>
   {
+    my gssize $l = $length;
+
     webkit_web_view_evaluate_javascript(
       $!wv,
       $script,
@@ -218,7 +243,14 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
   )
     is also<evaluate-javascript-finish>
   {
-    webkit_web_view_evaluate_javascript_finish($!wv, $result, $error);
+    clear_error;
+    my $v = webkit_web_view_evaluate_javascript_finish(
+      $!wv,
+      $result,
+      $error
+    );
+    set_error($error);
+    propReturnObject($v, $raw, |JSC::Value.getTypePair)
   }
 
   method execute_editing_command (Str() $command)
@@ -402,11 +434,11 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
   }
 
   method get_snapshot (
-    Int()        $region,
-    Int()        $options,
-    GCancellable $cancellable,
-                 &callback,
-    gpointer     $user_data    = gpointer
+    Int()          $region,
+    Int()          $options,
+    GCancellable() $cancellable,
+                   &callback,
+    gpointer       $user_data    = gpointer
   )
     is also<get-snapshot>
   {

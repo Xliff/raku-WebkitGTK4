@@ -6,7 +6,7 @@ use WebKit::Raw::Types;
 use WebKit::Raw::BackForwardList;
 
 use GLib::GList;
-#use WebKit::BackForwardList::Item:ver<4>;
+use WebKit::BackForwardList::Item:ver<4>;
 
 use GLib::Roles::Implementor;
 use GLib::Roles::Object;

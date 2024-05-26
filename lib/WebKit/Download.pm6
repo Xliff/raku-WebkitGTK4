@@ -5,13 +5,16 @@ use Method::Also;
 use WebKit::Raw::Types;
 use WebKit::Raw::Download;
 
+use WebKit::URI::Response:ver<4>;
+use WebKit::URI::Request:ver<4>;
+
 use GLib::Roles::Implementor;
 use GLib::Roles::Object;
 
 our subset WebKitDownloadAncestry is export of Mu
   where WebKitDownload | GObject;
 
-class WebKit::Download {
+class WebKit::Download:ver<4> {
   also does GLib::Roles::Object;
 
   has WebKitDownload $!wd is implementor;

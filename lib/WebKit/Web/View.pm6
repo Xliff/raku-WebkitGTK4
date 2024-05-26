@@ -6,8 +6,13 @@ use NativeCall;
 use WebKit::Raw::Types:ver<4>;
 use WebKit::Raw::Web::View:ver<4>;
 
+use GIO::TlsCertificate;
+use GDK::RGBA:ver<4>;
 use GTK::Widget:ver<4>;
+use WebKit::Download:ver<4>;
+use WebKit::BackForwardList:ver<4>;
 use WebKit::Web::Inspector:ver<4>;
+use WebKit::WindowProperties:ver<4>;
 
 use GLib::Roles::Implementor;
 
@@ -186,8 +191,12 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     so webkit_web_view_can_show_mime_type($!wv, $mime_type);
   }
 
-  method download_uri (Str() $uri) is also<download-uri> {
-    webkit_web_view_download_uri($!wv, $uri);
+  method download_uri (Str() $uri, :$raw = False) is also<download-uri> {
+    propReturnObject(
+      webkit_web_view_download_uri($!wv, $uri),
+      $raw,
+      |WebKit::Download.getTypePair
+    );
   }
 
   proto method evaluate_javascript (|)
@@ -395,7 +404,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     propReturnObject(
       webkit_web_view_get_main_resource($!wv),
       $raw,
-      WebKit::WebResource.getTypePair
+      |WebKit::WebResource.getTypePair
     );
   }
 
@@ -537,7 +546,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     propReturnObject(
       webkit_web_view_get_window_properties($!wv),
       $raw,
-      |WebKit::Window::Properties.getTypePair
+      |WebKit::WindowProperties.getTypePair
     );
   }
 

@@ -11,7 +11,7 @@ use GLib::Roles::Object;
 our subset WebKitWebInspectorAncestry is export of Mu
   where WebKitWebInspector | GObject;
 
-class WebKit::WebInspector {
+class WebKit::Web::Inspector:ver<4> {
   also does GLib::Roles::Object;
 
   has WebKitWebInspector $!wi is implementor;

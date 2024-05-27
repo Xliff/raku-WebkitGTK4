@@ -18,11 +18,15 @@ class WebKitBackForwardList                       is export is repr<CPointer> do
 class WebKitBackForwardListItem                   is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitDownload                              is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitFindController                        is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitGeolocationManager                    is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitInputMethodContext                    is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitNetworkSession                        is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitSecurityManager                       is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitSecurityOrigin                        is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitSettings                              is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitURIRequest                            is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitURIResponse                           is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitURISchemeRequest                      is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitUserContentManager                    is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitUserMessage                           is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitWebContext                            is export is repr<CPointer> does GLib::Roles::Pointers { }

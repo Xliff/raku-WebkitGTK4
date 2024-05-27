@@ -404,7 +404,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     propReturnObject(
       webkit_web_view_get_main_resource($!wv),
       $raw,
-      |WebKit::WebResource.getTypePair
+      |WebKit::Web::Resource.getTypePair
     );
   }
 

@@ -64,6 +64,508 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     $webkit-web-view ?? self.bless( :$webkit-web-view ) !! Nil;
   }
 
+  # Type: AutomationBrowsingContextPresentation
+  method automation-presentation-type ( :$enum = True ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::Enum::AutomationBrowsingContextPresentation.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('automation-presentation-type', $gv);
+        my $v = $gv.enum;
+        return $v unless $enum;
+        AutomationBrowsingContextPresentationEnum($v);
+      },
+      STORE => -> $, Int() $val is copy {
+        warn 'automation-presentation-type is a construct-only attribute'
+      }
+    );
+  }
+
+  # Type: MediaCaptureState
+  method camera-capture-state ( :$enum = True ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::Enum::MediaCaptureState.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('camera-capture-state', $gv);
+        my $v = $gv.enum;
+        return $v unless $enum;
+        MediaCaptureStateEnum($v);
+      },
+      STORE => -> $, Int() $val is copy {
+        $gv.valueFromEnum(MediaCaptureState) = $val;
+        self.prop_set('camera-capture-state', $gv);
+      }
+    );
+  }
+
+  # Type: gchar*
+  method default-content-security-policy is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_STRING );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('default-content-security-policy', $gv);
+        $gv.string;
+      },
+      STORE => -> $, Str() $val is copy {
+        warn 'default-content-security-policy is a construct-only attribute'
+      }
+    );
+  }
+
+  # Type: MediaCaptureState
+  method display-capture-state ( :$enum = True ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::Enum::MediaCaptureState.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('display-capture-state', $gv);
+        my $v = $gv.enum;
+        return $v unless $enum;
+        MediaCaptureStateEnum($v);
+      },
+      STORE => -> $, Int() $val is copy {
+        $gv.valueFromEnum(MediaCaptureState) = $val;
+        self.prop_set('display-capture-state', $gv);
+      }
+    );
+  }
+
+  # Type: gboolean
+  method editable is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('editable', $gv);
+        $gv.boolean;
+      },
+      STORE => -> $, Int() $val is copy {
+        $gv.boolean = $val;
+        self.prop_set('editable', $gv);
+      }
+    );
+  }
+
+  # Type: gdouble
+  method estimated-load-progress is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_DOUBLE );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('estimated-load-progress', $gv);
+        $gv.double;
+      },
+      STORE => -> $, Num() $val is copy {
+        warn 'estimated-load-progress does not allow writing'
+      }
+    );
+  }
+
+  # Type: GdkTexture
+  method favicon is rw is g-property {
+    my $gv = GLib::Value.new( -type- );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('favicon', $gv);
+        $gv.GdkTexture;
+      },
+      STORE => -> $,  $val is copy {
+        warn 'favicon does not allow writing'
+      }
+    );
+  }
+
+  # Type: gboolean
+  method is-controlled-by-automation is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('is-controlled-by-automation', $gv);
+        $gv.boolean;
+      },
+      STORE => -> $, Int() $val is copy {
+        warn 'is-controlled-by-automation is a construct-only attribute'
+      }
+    );
+  }
+
+  # Type: gboolean
+  method is-loading is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('is-loading', $gv);
+        $gv.boolean;
+      },
+      STORE => -> $, Int() $val is copy {
+        warn 'is-loading does not allow writing'
+      }
+    );
+  }
+
+  # Type: gboolean
+  method is-muted is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('is-muted', $gv);
+        $gv.boolean;
+      },
+      STORE => -> $, Int() $val is copy {
+        $gv.boolean = $val;
+        self.prop_set('is-muted', $gv);
+      }
+    );
+  }
+
+  # Type: gboolean
+  method is-playing-audio is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('is-playing-audio', $gv);
+        $gv.boolean;
+      },
+      STORE => -> $, Int() $val is copy {
+        warn 'is-playing-audio does not allow writing'
+      }
+    );
+  }
+
+  # Type: gboolean
+  method is-web-process-responsive is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('is-web-process-responsive', $gv);
+        $gv.boolean;
+      },
+      STORE => -> $, Int() $val is copy {
+        warn 'is-web-process-responsive does not allow writing'
+      }
+    );
+  }
+
+  # Type: MediaCaptureState
+  method microphone-capture-state ( :$enum = True ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::Enum::MediaCaptureState.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('microphone-capture-state', $gv);
+        my $v = $gv.enum;
+        return $v unless $enum;
+        MediaCaptureStateEnum($v);
+      },
+      STORE => -> $, Int() $val is copy {
+        $gv.valueFromEnum(MediaCaptureState) = $val;
+        self.prop_set('microphone-capture-state', $gv);
+      }
+    );
+  }
+
+  # Type: NetworkSession
+  method network-session ( :$raw = False ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::NetworkSession.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('network-session', $gv);
+        propReturnObject(
+          $gv.object,
+          $raw,
+          |WebKit::NetworkSession.getTypePair
+        );
+      },
+      STORE => -> $, NetworkSession() $val is copy {
+        warn 'network-session is a construct-only attribute'
+      }
+    );
+  }
+
+  # Type: guint64
+  method page-id is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_UINT64 );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('page-id', $gv);
+        $gv.uint64;
+      },
+      STORE => -> $, Int() $val is copy {
+        warn 'page-id does not allow writing'
+      }
+    );
+  }
+
+  # Type: WebView
+  method related-view ( :$raw = False ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::WebView.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+
+      },
+      STORE => -> $, WebView() $val is copy {
+        warn 'related-view is a construct-only attribute'
+      }
+    );
+  }
+
+  # Type: Settings
+  method settings ( :$raw = False ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::Settings.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+
+      },
+      STORE => -> $, Settings() $val is copy {
+        $gv.object = $val;
+        self.prop_set('settings', $gv);
+      }
+    );
+  }
+
+  # Type: gchar*
+  method title is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_STRING );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('title', $gv);
+        $gv.string;
+      },
+      STORE => -> $, Str() $val is copy {
+        warn 'title does not allow writing'
+      }
+    );
+  }
+
+  # Type: gchar*
+  method uri is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_STRING );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('uri', $gv);
+        $gv.string;
+      },
+      STORE => -> $, Str() $val is copy {
+        warn 'uri does not allow writing'
+      }
+    );
+  }
+
+  # Type: UserContentManager
+  method user-content-manager ( :$raw = False ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::UserContentManager.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('user-content-manager', $gv);
+        propReturnObject(
+          $gv.object,
+          $raw,
+          |WebKit::UserContentManager.getTypePair
+        );
+      },
+      STORE => -> $, UserContentManager() $val is copy {
+        warn 'user-content-manager is a construct-only attribute'
+      }
+    );
+  }
+
+  # Type: WebContext
+  method web-context ( :$raw = False ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::WebContext.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('web-context', $gv);
+        propReturnObject(
+          $gv.object,
+          $raw,
+          |WebKit::WebContext.getTypePair
+        );
+      },
+      STORE => -> $, WebContext() $val is copy {
+        warn 'web-context is a construct-only attribute'
+      }
+    );
+  }
+
+  # Type: WebExtensionMode
+  method web-extension-mode ( :$enum = True ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::Enum::WebExtensionMode.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('web-extension-mode', $gv);
+        my $v = $gv.enum;
+        return $v unless $enum;
+        WebExtensionModeEnum($v);
+      },
+      STORE => -> $, Int() $val is copy {
+        warn 'web-extension-mode is a construct-only attribute'
+      }
+    );
+  }
+
+  # Type: WebsitePolicies
+  method website-policies ( :$raw = False ) is rw is g-property {
+    my $gv = GLib::Value.new( WebKit::WebsitePolicies.get_type );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('website-policies', $gv);
+        propReturnObject(
+          $gv.object,
+          $raw,
+          |WebKit::WebsitePolicies.getTypePair
+        );
+      },
+      STORE => -> $, WebsitePolicies() $val is copy {
+        warn 'website-policies is a construct-only attribute'
+      }
+    );
+  }
+
+  # Type: gdouble
+  method zoom-level is rw is g-property {
+    my $gv = GLib::Value.new( G_TYPE_DOUBLE );
+    Proxy.new(
+      FETCH => sub ($) {
+        self.prop_get('zoom-level', $gv);
+        $gv.double;
+      },
+      STORE => -> $, Num() $val is copy {
+        $gv.double = $val;
+        self.prop_set('zoom-level', $gv);
+      }
+    );
+  }
+
+  # WebKitWebView, WebKitAuthenticationRequest, gpointer --> gboolean
+  method Authenticate {
+    self.connect-authenticate($!w);
+  }
+
+  # WebKitWebView, gpointer --> void
+  method Close {
+    self.connect($!wv, 'close');
+  }
+
+  # WebKitWebView, WebKitContextMenu, WebKitHitTestResult, gpointer --> gboolean
+  method Context-Menu {
+    self.connect-context-menu($!w);
+  }
+
+  # WebKitWebView, gpointer --> void
+  method Context-Menu-Dismissed {
+    self.connect($!wv, 'context-menu-dismissed');
+  }
+
+  # WebKitWebView, WebKitNavigationAction, gpointer --> GtkWidget
+  method Create {
+    self.connect-create($!w);
+  }
+
+  # WebKitWebView, WebKitPolicyDecision, WebKitPolicyDecisionType, gpointer --> gboolean
+  method Decide-Policy {
+    self.connect-decide-policy($!w);
+  }
+
+  # WebKitWebView, gpointer --> gboolean
+  method Enter-Fullscreen {
+    self.connect($!wv, 'enter-fullscreen');
+  }
+
+  # WebKitWebView, WebKitInsecureContentEvent, gpointer --> void
+  method Insecure-Content-Detected {
+    self.connect-insecure-content-detected($!w);
+  }
+
+  # WebKitWebView, gpointer --> gboolean
+  method Leave-Fullscreen {
+    self.connect($!wv, 'leave-fullscreen');
+  }
+
+  # WebKitWebView, WebKitLoadEvent, gpointer --> void
+  method Load-Changed {
+    self.connect-load-changed($!w);
+  }
+
+  # WebKitWebView, WebKitLoadEvent, Str, GError, gpointer --> gboolean
+  method Load-Failed {
+    self.connect-load-failed($!w);
+  }
+
+  # WebKitWebView, Str, GTlsCertificate, GTlsCertificateFlags, gpointer --> gboolean
+  method Load-Failed-With-Tls-Errors {
+    self.connect-load-failed-with-tls-errors($!w);
+  }
+
+  # WebKitWebView, WebKitHitTestResult, guint, gpointer --> void
+  method Mouse-Target-Changed {
+    self.connect-mouse-target-changed($!w);
+  }
+
+  # WebKitWebView, WebKitPermissionRequest, gpointer --> gboolean
+  method Permission-Request {
+    self.connect-permission-request($!w);
+  }
+
+  # WebKitWebView, WebKitPrintOperation, gpointer --> gboolean
+  method Print {
+    self.connect-print($!w);
+  }
+
+  # WebKitWebView, WebKitPermissionStateQuery, gpointer --> gboolean
+  method Query-Permission-State {
+    self.connect-query-permission-state($!w);
+  }
+
+  # WebKitWebView, gpointer --> void
+  method Ready-To-Show {
+    self.connect($!wv, 'ready-to-show');
+  }
+
+  # WebKitWebView, WebKitWebResource, WebKitURIRequest, gpointer --> void
+  method Resource-Load-Started {
+    self.connect-resource-load-started($!w);
+  }
+
+  # WebKitWebView, gpointer --> void
+  method Run-As-Modal {
+    self.connect($!wv, 'run-as-modal');
+  }
+
+  # WebKitWebView, WebKitColorChooserRequest, gpointer --> gboolean
+  method Run-Color-Chooser {
+    self.connect-run-color-chooser($!w);
+  }
+
+  # WebKitWebView, WebKitFileChooserRequest, gpointer --> gboolean
+  method Run-File-Chooser {
+    self.connect-run-file-chooser($!w);
+  }
+
+  # WebKitWebView, WebKitScriptDialog, gpointer --> gboolean
+  method Script-Dialog {
+    self.connect-script-dialog($!w);
+  }
+
+  # WebKitWebView, WebKitNotification, gpointer --> gboolean
+  method Show-Notification {
+    self.connect-show-notification($!w);
+  }
+
+  # WebKitWebView, WebKitOptionMenu, GdkRectangle, gpointer --> gboolean
+  method Show-Option-Menu {
+    self.connect-show-option-menu($!w);
+  }
+
+  # WebKitWebView, WebKitFormSubmissionRequest, gpointer --> void
+  method Submit-Form {
+    self.connect-submit-form($!w);
+  }
+
+  # WebKitWebView, WebKitUserMessage, gpointer --> gboolean
+  method User-Message-Received {
+    self.connect-user-message-received($!w);
+  }
+
+  # WebKitWebView, WebKitWebProcessTerminationReason, gpointer --> void
+  method Web-Process-Terminated {
+    self.connect-web-process-terminated($!w);
+  }
+
   proto method call_async_javascript_function (|)
     is also<call-async-javascript-function>
   { * }

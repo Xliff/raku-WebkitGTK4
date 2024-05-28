@@ -10,6 +10,10 @@ unit package WebKit::Raw::Definitions;
 
 constant webkit is export = 'webkitgtk-6.0',v4;
 
+sub WebKit4-Distribution is export is DistributionProvider {
+  $?DISTRIBUTION;
+}
+
 class JSCValue                                    is export is repr<CPointer> does GLib::Roles::Pointers { }
 
 constant WebKitEditorState is export := guint;
@@ -17,9 +21,14 @@ constant WebKitEditorState is export := guint;
 class WebKitBackForwardList                       is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitBackForwardListItem                   is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitDownload                              is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitFaviconDatabase                       is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitFeature                               is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitFeatureList                           is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitFindController                        is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitGeolocationManager                    is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitInputMethodContext                    is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitITPFirstParty                         is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitITPThirdParty                         is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitNetworkSession                        is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitSecurityManager                       is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitSecurityOrigin                        is export is repr<CPointer> does GLib::Roles::Pointers { }
@@ -34,5 +43,6 @@ class WebKitWebInspector                          is export is repr<CPointer> do
 class WebKitWebResource                           is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitWebView                               is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitWebViewSessionState                   is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitWebsiteDataManager                    is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitWebsitePolicies                       is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitWindowProperties                      is export is repr<CPointer> does GLib::Roles::Pointers { }

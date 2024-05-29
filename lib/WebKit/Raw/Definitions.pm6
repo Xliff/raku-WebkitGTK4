@@ -27,7 +27,9 @@ class WebKitFeature                               is export is repr<CPointer> do
 class WebKitFeatureList                           is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitFindController                        is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitGeolocationManager                    is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitHitTestResult                         is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitInputMethodContext                    is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitInputMethodUnderline                  is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitITPFirstParty                         is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitITPThirdParty                         is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitMemoryPressureSettings                is export is repr<CPointer> does GLib::Roles::Pointers { }

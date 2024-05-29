@@ -20,6 +20,7 @@ constant WebKitEditorState is export := guint;
 
 class WebKitBackForwardList                       is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitBackForwardListItem                   is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitCookieManager                         is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitDownload                              is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitFaviconDatabase                       is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitFeature                               is export is repr<CPointer> does GLib::Roles::Pointers { }
@@ -29,6 +30,8 @@ class WebKitGeolocationManager                    is export is repr<CPointer> do
 class WebKitInputMethodContext                    is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitITPFirstParty                         is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitITPThirdParty                         is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitMemoryPressureSettings                is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitNetworkProxySettings                  is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitNetworkSession                        is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitScriptMessageReply                    is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitSecurityManager                       is export is repr<CPointer> does GLib::Roles::Pointers { }

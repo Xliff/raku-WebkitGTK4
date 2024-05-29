@@ -7,12 +7,14 @@ use WebKit::Raw::UserContentManager:ver<4>;
 
 use GLib::Roles::Implementor;
 use GLib::Roles::Object;
+use WebKit::Roles::Signals::UserContentManager;
 
 our subset WebKitUserContentManagerAncestry is export of Mu
   where WebKitUserContentManager | GObject;
 
 class WebKit::UserContentManager:ver<4> {
   also does GLib::Roles::Object;
+  also does WebKit::Roles::Signals::UserContentManager;
 
   has WebKitUserContentManager $!wucm is implementor;
 
@@ -56,6 +58,16 @@ class WebKit::UserContentManager:ver<4> {
     my $webkit-cont-mgr = webkit_user_content_manager_new();
 
     $webkit-cont-mgr ?? self.bless( :$webkit-cont-mgr ) !! Nil
+  }
+
+  # WebKitUserContentManager, JSCValue, gpointer --> void
+  method Script-Message-Received {
+    self.connect-script-message-received($!wucm);
+  }
+
+  # WebKitUserContentManager, JSCValue, WebKitScriptMessageReply, gpointer --> gboolean
+  method Script-Message-With-Reply-Received {
+    self.connect-script-message-with-reply-received($!wucm);
   }
 
   method add_filter (WebKitUserContentFilter() $filter) is also<add-filter> {
@@ -141,57 +153,6 @@ class WebKit::UserContentManager:ver<4> {
       $name,
       $world_name
     );
-  }
-
-}
-
-# BOXED
-
-class WebKit::Script::Message::Reply {
-  also does GLib::Roles::Implementor;
-
-  has WebKitScriptMessageReply $!wsmr is implementor;
-
-  submethod BUILD ( :$webkit-script-reply ) {
-    $!wsmr = $webkit-script-reply if $webkit-script-reply;
-  }
-
-  method new (WebKitScriptMessageReply $webkit-script-reply, :$ref = True) {
-    my $o = $webkit-script-reply ?? self.bless( :$webkit-script-reply )
-                                 !! Nil;
-
-    $o.ref if $o && $ref;
-    $o;
-  }
-
-  method get_type is also<get-type> {
-    state ($n, $t);
-
-    unstable_get_type(
-      self.^name,
-      &webkit_script_message_reply_get_type,
-      $n,
-      $t
-    );
-  }
-
-  method ref {
-    webkit_script_message_reply_ref($!wsmr);
-    self;
-  }
-
-  method return_error_message (Str() $error_message)
-    is also<return-error-message>
-  {
-    webkit_script_message_reply_return_error_message($!wsmr, $error_message);
-  }
-
-  method return_value (JSCValue() $reply_value) is also<return-value> {
-    webkit_script_message_reply_return_value($!wsmr, $reply_value);
-  }
-
-  method unref {
-    webkit_script_message_reply_unref($!wsmr);
   }
 
 }

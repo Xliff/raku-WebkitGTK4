@@ -23,6 +23,7 @@ class WebKitBackForwardList                       is export is repr<CPointer> do
 class WebKitBackForwardListItem                   is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitColorChooserRequest                   is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitContextMenu                           is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitContextMenuItem                       is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitCookieManager                         is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitCredential                            is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitDownload                              is export is repr<CPointer> does GLib::Roles::Pointers { }

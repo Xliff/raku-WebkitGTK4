@@ -11,7 +11,7 @@ use GLib::Roles::Object;
 our subset WebKitHitTestResultAncestry is export of Mu
   where WebKitHitTestResult | GObject;
 
-class WebKit::HitTestResult {
+class WebKit::HitTestResult:ver<4> {
   also does GLib::Roles::Object;
 
   has WebKitHitTestResult $!whtr is implementor;
@@ -56,7 +56,10 @@ class WebKit::HitTestResult {
   }
 
   # Type: guint
-  multi method context ( :enum(:$flags) = True ) is rw is g-property {
+  multi method context (
+    :enum(:$flags)                   = True,
+    :o(:obj($object)) where *.so.not
+  ) is rw is g-property {
     my $gv = GLib::Value.new( G_TYPE_UINT );
     Proxy.new(
       FETCH => sub ($) {
@@ -142,7 +145,7 @@ class WebKit::HitTestResult {
   }
 
   multi method context ( :o(:obj($object)) is required where *.so ) {
-    my $s = self;
+    my $s = self.WebKitHitTestResult;
 
     unless $!context {
       $!context = (
@@ -181,6 +184,16 @@ class WebKit::HitTestResult {
       ).new;
     }
     $!context;
+  }
+
+  method context-object
+    is also<
+      context_object
+      context-obj
+      context_obj
+    >
+  {
+    self.context( :o );
   }
 
   method get_context ( :enum(:$flags) = True ) is also<get-context> {

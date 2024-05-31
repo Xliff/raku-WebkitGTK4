@@ -9,5 +9,5 @@ exec=p6gtk4exec
 subprefixes=
 idir-avail=True
 extension=.h
-build-exclude=WebKit::Raw::Traps
+build-exclude=WebKit::Raw::Traps,JSC::Value
 gtkdoc-dir=/build/WebKit/WebKitBuild/GTK/Debug/Documentation/webkitgtk-6.0

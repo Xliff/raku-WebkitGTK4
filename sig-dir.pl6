@@ -17,7 +17,7 @@ sub get-dir {
   $dir.IO.dir
 }
 
-sub MAIN ( $control, $var = '$!w' ) {
+sub MAIN ( $control, :$var = 'w' ) {
   my (%signals, %roles, %defs);
 
   for get-dir[] {
@@ -43,11 +43,9 @@ sub MAIN ( $control, $var = '$!w' ) {
     %signals{$name} = qq:to/SIG/;
       { $comment }
       method { $name.split('-').map( *.lc.tc ).join('-') } \{
-        self.connect-{ $name }({ $var });
+        self.connect-{ $name }(\$!{ $var });
       \}
       SIG
-
-    my $role-var = $var.substr(2);
 
     my %bv;
     my @ap;
@@ -76,7 +74,7 @@ sub MAIN ( $control, $var = '$!w' ) {
         :\$raw       = False
       ) \{
         my \$hid;
-        \%!signals-{ $role-var }\{\$signal\} //= do \{
+        \%!signals-{ $var }\{\$signal\} //= do \{
           my \\𝒮 = Supplier.new;
           \$hid = g-connect-{ $name }(\$obj, \$signal,
             -> \$, { $pl } \{
@@ -92,10 +90,10 @@ sub MAIN ( $control, $var = '$!w' ) {
             },
             Pointer, 0
           );
-          [ create-signal-supply(𝒮.Supply, \$obj, \$signal), \$obj, \$hid ];
+          [ create-signal-supply(𝒮, \$signal-{ $var }, \$signal), \$obj, \$hid ];
         \};
-        \%!signals-{ $role-var }\{\$signal\}[0].tap(\&handler) with \&handler;
-        \%!signals-{ $role-var }\{\$signal\}[0];
+        \%!signals-{ $var }\{\$signal\}[0].tap(\&handler) with \&handler;
+        \%!signals-{ $var }\{\$signal\}[0];
       \}
       ROLE
 

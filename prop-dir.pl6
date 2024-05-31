@@ -99,7 +99,7 @@ sub MAIN ( $control ) {
 
     given $tt {
       when 'enum' {
-        $*co = 'Int()';
+        $*co = 'Int()' if %attr<Writable>;
         $gtype = "{ %config<prefix> }::Enum::{ $t }.get_type";
 
         %c<read> = qq:to/READ/.&indent(6) if %attr<Readable>;
@@ -116,7 +116,12 @@ sub MAIN ( $control ) {
       }
 
       when 'class' {
-        $*co = $t ~ '()';
+        if %attr<Writable> {
+          $*co = $t ~ '()';
+          $*co = "{ %config<prefix> }{ $*co }"
+            unless $*co.starts-with( %config<prefix> );
+        }
+
         my $ot = "{ %config<prefix> }::{ $t }";
         $gtype = "{ $ot }.get_type";
 

@@ -12,7 +12,7 @@ use GLib::Roles::Object;
 our subset WebKitBackForwardListItemAncestry is export of Mu
   where WebKitBackForwardListItem | GObject;
 
-class WebKit::WebKitBackForwardList::Item {
+class WebKit::BackForwardList::Item {
   also does GLib::Roles::Object;
 
   has WebKitBackForwardListItem $!wbfli is implementor;

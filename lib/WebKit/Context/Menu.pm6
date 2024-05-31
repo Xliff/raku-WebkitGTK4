@@ -7,6 +7,7 @@ use WebKit::Raw::Context::Menu:ver<4>;
 
 use GLib::GList;
 use JSON::GLib::Variant;
+use WebKit::Content::Menu::Item:ver<4>;
 
 use GLib::Roles::Implementor;
 use GLib::Roles::Object;

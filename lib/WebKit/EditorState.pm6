@@ -4,6 +4,7 @@ use Method::Also;
 
 use NativeCall;
 
+use GLib::Raw::Traits;
 use WebKit::Raw::Types;
 
 use GLib::Roles::Implementor;
@@ -12,7 +13,7 @@ use GLib::Roles::Object;
 our subset WebKitEditorStateAncestry is export of Mu
   where WebKitEditorState | GObject;
 
-class WebKit::EditorState {
+class WebKit::EditorState does NotInManifest {
   also does GLib::Roles::Object;
 
   has WebKitEditorState $!wes is implementor;

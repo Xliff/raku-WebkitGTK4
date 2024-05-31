@@ -3,11 +3,13 @@ use v6.c;
 use Method::Also;
 use NativeCall;
 
+use GLib::Raw::Traits;
 use WebKit::Raw::Types:ver<4>;
 use WebKit::Raw::Web::View:ver<4>;
 
 use GIO::TlsCertificate;
 use GDK::RGBA:ver<4>;
+use GDK::Texture:ver<4>;
 use GTK::Widget:ver<4>;
 use WebKit::Download:ver<4>;
 use WebKit::BackForwardList:ver<4>;
@@ -15,11 +17,14 @@ use WebKit::Web::Inspector:ver<4>;
 use WebKit::WindowProperties:ver<4>;
 
 use GLib::Roles::Implementor;
+use WebKit::Roles::Signals::Web::View;
 
 our subset WebKitWebViewAncestry is export of Mu
   where WebKitWebView | GtkWidgetAncestry;
 
 class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
+  also does WebKit::Roles::Signals::Web::View;
+
   has WebKitWebView $!wv is implementor;
 
   submethod BUILD ( :$webkit-web-view ) {
@@ -72,7 +77,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
         self.prop_get('automation-presentation-type', $gv);
         my $v = $gv.enum;
         return $v unless $enum;
-        AutomationBrowsingContextPresentationEnum($v);
+        WebKitAutomationBrowsingContextPresentationEnum($v);
       },
       STORE => -> $, Int() $val is copy {
         warn 'automation-presentation-type is a construct-only attribute'
@@ -88,10 +93,10 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
         self.prop_get('camera-capture-state', $gv);
         my $v = $gv.enum;
         return $v unless $enum;
-        MediaCaptureStateEnum($v);
+        WebKitMediaCaptureStateEnum($v);
       },
       STORE => -> $, Int() $val is copy {
-        $gv.valueFromEnum(MediaCaptureState) = $val;
+        $gv.valueFromEnum(WebKitMediaCaptureState) = $val;
         self.prop_set('camera-capture-state', $gv);
       }
     );
@@ -119,10 +124,10 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
         self.prop_get('display-capture-state', $gv);
         my $v = $gv.enum;
         return $v unless $enum;
-        MediaCaptureStateEnum($v);
+        WebKitMediaCaptureStateEnum($v);
       },
       STORE => -> $, Int() $val is copy {
-        $gv.valueFromEnum(MediaCaptureState) = $val;
+        $gv.valueFromEnum(WebKitMediaCaptureState) = $val;
         self.prop_set('display-capture-state', $gv);
       }
     );
@@ -158,12 +163,16 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
   }
 
   # Type: GdkTexture
-  method favicon is rw is g-property {
-    my $gv = GLib::Value.new( -type- );
+  method favicon ( :$raw = False ) is rw is g-property {
+    my $gv = GLib::Value.new( GDK::Texture.get_type );
     Proxy.new(
       FETCH => sub ($) {
         self.prop_get('favicon', $gv);
-        $gv.GdkTexture;
+        propReturnObject(
+          $gv.object;
+          $raw,
+          |GDK::Texture.getTypePair
+        );
       },
       STORE => -> $,  $val is copy {
         warn 'favicon does not allow writing'
@@ -171,8 +180,13 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     );
   }
 
+
+  proto method is_controlled_by_automation (|)
+    is also<is-controlled-by-automation>
+  { * }
+
   # Type: gboolean
-  method is-controlled-by-automation is rw is g-property {
+  multi method is_controlled_by_automation is rw is g-property {
     my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
     Proxy.new(
       FETCH => sub ($) {
@@ -185,8 +199,13 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     );
   }
 
+
+  proto method is_loading (|)
+    is also<is-loading>
+  { * }
+
   # Type: gboolean
-  method is-loading is rw is g-property {
+  multi method is_loading is rw is g-property {
     my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
     Proxy.new(
       FETCH => sub ($) {
@@ -214,8 +233,12 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     );
   }
 
+  proto method is_playing_audio
+    is also<is-playing-audio>
+  { * }
+
   # Type: gboolean
-  method is-playing-audio is rw is g-property {
+  multi method is_playing_audio is rw is g-property {
     my $gv = GLib::Value.new( G_TYPE_BOOLEAN );
     Proxy.new(
       FETCH => sub ($) {
@@ -250,10 +273,10 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
         self.prop_get('microphone-capture-state', $gv);
         my $v = $gv.enum;
         return $v unless $enum;
-        MediaCaptureStateEnum($v);
+        WebKitMediaCaptureStateEnum($v);
       },
       STORE => -> $, Int() $val is copy {
-        $gv.valueFromEnum(MediaCaptureState) = $val;
+        $gv.valueFromEnum(WebKitMediaCaptureState) = $val;
         self.prop_set('microphone-capture-state', $gv);
       }
     );
@@ -271,7 +294,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
           |WebKit::NetworkSession.getTypePair
         );
       },
-      STORE => -> $, NetworkSession() $val is copy {
+      STORE => -> $, $val is copy {
         warn 'network-session is a construct-only attribute'
       }
     );
@@ -285,7 +308,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
         self.prop_get('page-id', $gv);
         $gv.uint64;
       },
-      STORE => -> $, Int() $val is copy {
+      STORE => -> $, $val is copy {
         warn 'page-id does not allow writing'
       }
     );
@@ -298,7 +321,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
       FETCH => sub ($) {
 
       },
-      STORE => -> $, WebView() $val is copy {
+      STORE => -> $, $val is copy {
         warn 'related-view is a construct-only attribute'
       }
     );
@@ -311,7 +334,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
       FETCH => sub ($) {
 
       },
-      STORE => -> $, Settings() $val is copy {
+      STORE => -> $, $val is copy {
         $gv.object = $val;
         self.prop_set('settings', $gv);
       }
@@ -326,7 +349,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
         self.prop_get('title', $gv);
         $gv.string;
       },
-      STORE => -> $, Str() $val is copy {
+      STORE => -> $, $val is copy {
         warn 'title does not allow writing'
       }
     );
@@ -340,7 +363,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
         self.prop_get('uri', $gv);
         $gv.string;
       },
-      STORE => -> $, Str() $val is copy {
+      STORE => -> $, $val is copy {
         warn 'uri does not allow writing'
       }
     );
@@ -358,7 +381,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
           |WebKit::UserContentManager.getTypePair
         );
       },
-      STORE => -> $, UserContentManager() $val is copy {
+      STORE => -> $, $val is copy {
         warn 'user-content-manager is a construct-only attribute'
       }
     );
@@ -376,7 +399,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
           |WebKit::WebContext.getTypePair
         );
       },
-      STORE => -> $, WebContext() $val is copy {
+      STORE => -> $, $val is copy {
         warn 'web-context is a construct-only attribute'
       }
     );
@@ -390,9 +413,9 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
         self.prop_get('web-extension-mode', $gv);
         my $v = $gv.enum;
         return $v unless $enum;
-        WebExtensionModeEnum($v);
+        WebKitWebExtensionModeEnum($v);
       },
-      STORE => -> $, Int() $val is copy {
+      STORE => -> $, $val is copy {
         warn 'web-extension-mode is a construct-only attribute'
       }
     );
@@ -407,10 +430,10 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
         propReturnObject(
           $gv.object,
           $raw,
-          |WebKit::WebsitePolicies.getTypePair
+          |WebKit::Website::Policies.getTypePair
         );
       },
-      STORE => -> $, WebsitePolicies() $val is copy {
+      STORE => -> $, $val is copy {
         warn 'website-policies is a construct-only attribute'
       }
     );
@@ -433,7 +456,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
 
   # WebKitWebView, WebKitAuthenticationRequest, gpointer --> gboolean
   method Authenticate {
-    self.connect-authenticate($!w);
+    self.connect-authenticate($!wv);
   }
 
   # WebKitWebView, gpointer --> void
@@ -443,7 +466,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
 
   # WebKitWebView, WebKitContextMenu, WebKitHitTestResult, gpointer --> gboolean
   method Context-Menu {
-    self.connect-context-menu($!w);
+    self.connect-context-menu($!wv);
   }
 
   # WebKitWebView, gpointer --> void
@@ -453,12 +476,12 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
 
   # WebKitWebView, WebKitNavigationAction, gpointer --> GtkWidget
   method Create {
-    self.connect-create($!w);
+    self.connect-create($!wv);
   }
 
   # WebKitWebView, WebKitPolicyDecision, WebKitPolicyDecisionType, gpointer --> gboolean
   method Decide-Policy {
-    self.connect-decide-policy($!w);
+    self.connect-decide-policy($!wv);
   }
 
   # WebKitWebView, gpointer --> gboolean
@@ -468,7 +491,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
 
   # WebKitWebView, WebKitInsecureContentEvent, gpointer --> void
   method Insecure-Content-Detected {
-    self.connect-insecure-content-detected($!w);
+    self.connect-insecure-content-detected($!wv);
   }
 
   # WebKitWebView, gpointer --> gboolean
@@ -478,37 +501,37 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
 
   # WebKitWebView, WebKitLoadEvent, gpointer --> void
   method Load-Changed {
-    self.connect-load-changed($!w);
+    self.connect-load-changed($!wv);
   }
 
   # WebKitWebView, WebKitLoadEvent, Str, GError, gpointer --> gboolean
   method Load-Failed {
-    self.connect-load-failed($!w);
+    self.connect-load-failed($!wv);
   }
 
   # WebKitWebView, Str, GTlsCertificate, GTlsCertificateFlags, gpointer --> gboolean
   method Load-Failed-With-Tls-Errors {
-    self.connect-load-failed-with-tls-errors($!w);
+    self.connect-load-failed-with-tls-errors($!wv);
   }
 
   # WebKitWebView, WebKitHitTestResult, guint, gpointer --> void
   method Mouse-Target-Changed {
-    self.connect-mouse-target-changed($!w);
+    self.connect-mouse-target-changed($!wv);
   }
 
   # WebKitWebView, WebKitPermissionRequest, gpointer --> gboolean
   method Permission-Request {
-    self.connect-permission-request($!w);
+    self.connect-permission-request($!wv);
   }
 
   # WebKitWebView, WebKitPrintOperation, gpointer --> gboolean
   method Print {
-    self.connect-print($!w);
+    self.connect-print($!wv);
   }
 
   # WebKitWebView, WebKitPermissionStateQuery, gpointer --> gboolean
   method Query-Permission-State {
-    self.connect-query-permission-state($!w);
+    self.connect-query-permission-state($!wv);
   }
 
   # WebKitWebView, gpointer --> void
@@ -518,7 +541,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
 
   # WebKitWebView, WebKitWebResource, WebKitURIRequest, gpointer --> void
   method Resource-Load-Started {
-    self.connect-resource-load-started($!w);
+    self.connect-resource-load-started($!wv);
   }
 
   # WebKitWebView, gpointer --> void
@@ -528,42 +551,42 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
 
   # WebKitWebView, WebKitColorChooserRequest, gpointer --> gboolean
   method Run-Color-Chooser {
-    self.connect-run-color-chooser($!w);
+    self.connect-run-color-chooser($!wv);
   }
 
   # WebKitWebView, WebKitFileChooserRequest, gpointer --> gboolean
   method Run-File-Chooser {
-    self.connect-run-file-chooser($!w);
+    self.connect-run-file-chooser($!wv);
   }
 
   # WebKitWebView, WebKitScriptDialog, gpointer --> gboolean
   method Script-Dialog {
-    self.connect-script-dialog($!w);
+    self.connect-script-dialog($!wv);
   }
 
   # WebKitWebView, WebKitNotification, gpointer --> gboolean
   method Show-Notification {
-    self.connect-show-notification($!w);
+    self.connect-show-notification($!wv);
   }
 
   # WebKitWebView, WebKitOptionMenu, GdkRectangle, gpointer --> gboolean
   method Show-Option-Menu {
-    self.connect-show-option-menu($!w);
+    self.connect-show-option-menu($!wv);
   }
 
   # WebKitWebView, WebKitFormSubmissionRequest, gpointer --> void
   method Submit-Form {
-    self.connect-submit-form($!w);
+    self.connect-submit-form($!wv);
   }
 
   # WebKitWebView, WebKitUserMessage, gpointer --> gboolean
   method User-Message-Received {
-    self.connect-user-message-received($!w);
+    self.connect-user-message-received($!wv);
   }
 
   # WebKitWebView, WebKitWebProcessTerminationReason, gpointer --> void
   method Web-Process-Terminated {
-    self.connect-web-process-terminated($!w);
+    self.connect-web-process-terminated($!wv);
   }
 
   proto method call_async_javascript_function (|)
@@ -709,7 +732,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     Int()           :l(:$length)                     = -1,
     Str()           :name(:world-name(:$world_name)) = Str,
     Str()           :uri(:source-uri(:$source_uri))  = Str,
-    GCancellable()  :$cancellable                    = GCancellable
+    GCancellable()  :$cancellable                    = GCancellable,
                     :&callback                       = Callable,
     gpointer        :data(:$user_data)               = gpointer
   ) {
@@ -749,8 +772,9 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
   }
 
   method evaluate_javascript_finish (
-    GAsyncResult()          $result,
-    CArray[Pointer[GError]] $error
+    GAsyncResult()           $result,
+    CArray[Pointer[GError]]  $error,
+                            :$raw     = False
   )
     is also<evaluate-javascript-finish>
   {
@@ -1072,7 +1096,7 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     webkit_web_view_go_to_back_forward_list_item($!wv, $list_item);
   }
 
-  method is_controlled_by_automation is also<is-controlled-by-automation> {
+  multi method is_controlled_by_automation ( :m(:$method) is required ) {
     so webkit_web_view_is_controlled_by_automation($!wv);
   }
 
@@ -1080,11 +1104,11 @@ class WebKit::Web::View:ver<4> is GTK::Widget:ver<4> {
     so webkit_web_view_is_editable($!wv);
   }
 
-  method is_loading is also<is-loading> {
+  multi method is_loading ( :m(:$method) is required ) {
     so webkit_web_view_is_loading($!wv);
   }
 
-  method is_playing_audio is also<is-playing-audio> {
+  multi method is_playing_audio ( :m(:$method) is required ) {
     so webkit_web_view_is_playing_audio($!wv);
   }
 

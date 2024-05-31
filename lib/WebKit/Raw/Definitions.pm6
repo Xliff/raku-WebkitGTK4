@@ -34,6 +34,7 @@ class WebKitFileChooserRequest                    is export is repr<CPointer> do
 class WebKitFindController                        is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitFormSubmissionRequest                 is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitGeolocationManager                    is export is repr<CPointer> does GLib::Roles::Pointers { }
+class WebKitGeolocationPosition                   is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitHitTestResult                         is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitInputMethodContext                    is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitInputMethodUnderline                  is export is repr<CPointer> does GLib::Roles::Pointers { }
@@ -70,3 +71,14 @@ class WebKitWebsitePolicies                       is export is repr<CPointer> do
 class WebKitWebView                               is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitWebViewSessionState                   is export is repr<CPointer> does GLib::Roles::Pointers { }
 class WebKitWindowProperties                      is export is repr<CPointer> does GLib::Roles::Pointers { }
+
+### /usr/include/webkitgtk-6.0/webkit/WebKitEditingCommands.h
+constant WEBKIT_EDITING_COMMAND_CUT                 is export = 'Cut';
+constant WEBKIT_EDITING_COMMAND_COPY                is export = 'Copy';
+constant WEBKIT_EDITING_COMMAND_PASTE               is export = 'Paste';
+constant WEBKIT_EDITING_COMMAND_PASTE_AS_PLAIN_TEXT is export = 'PasteAsPlainText';
+constant WEBKIT_EDITING_COMMAND_SELECT_ALL          is export = 'SelectAll';
+constant WEBKIT_EDITING_COMMAND_UNDO                is export = 'Undo';
+constant WEBKIT_EDITING_COMMAND_REDO                is export = 'Redo';
+constant WEBKIT_EDITING_COMMAND_INSERT_IMAGE        is export = 'InsertImage';
+constant WEBKIT_EDITING_COMMAND_CREATE_LINK         is export = 'CreateLink';

@@ -4,6 +4,10 @@ use NativeCall;
 
 use WebKit::Raw::Types;
 
+use WebKit::HitTestResult:ver<4>;
+
+use GLib::Object::Supplyish;
+
 role WebKit::Roles::Signals::Web::View {
   has %!signals-wv;
 
@@ -15,7 +19,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-authenticate($obj, $signal,
         -> $, $wkar, $p {
@@ -31,10 +35,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitContextMenu, WebKitHitTestResult, gpointer --> gboolean
@@ -45,7 +49,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-context-menu($obj, $signal,
         -> $, $wkcm, $wkhtr, $p {
@@ -55,16 +59,17 @@ role WebKit::Roles::Signals::Web::View {
 
           # Insert object code HERE!
           unless $raw {
+
           }
 
           𝒮.emit( [self, $wkcm, $wkhtr, $p] );
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitNavigationAction, gpointer --> GtkWidget
@@ -75,7 +80,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-create($obj, $signal,
         -> $, $wkna, $p {
@@ -91,10 +96,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitPolicyDecision, WebKitPolicyDecisionType, gpointer --> gboolean
@@ -105,7 +110,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-decide-policy($obj, $signal,
         -> $, $wkpd, $wkpdt, $p {
@@ -121,10 +126,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitInsecureContentEvent, gpointer --> void
@@ -135,7 +140,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-insecure-content-detected($obj, $signal,
         -> $, $wkice, $p {
@@ -151,10 +156,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitLoadEvent, gpointer --> void
@@ -165,7 +170,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-load-changed($obj, $signal,
         -> $, $wkle, $p {
@@ -181,10 +186,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitLoadEvent, Str, GError, gpointer --> gboolean
@@ -195,7 +200,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-load-failed($obj, $signal,
         -> $, $wkle, $c, $G, $p {
@@ -211,10 +216,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, Str, GTlsCertificate, GTlsCertificateFlags, gpointer --> gboolean
@@ -225,7 +230,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-load-failed-with-tls-errors($obj, $signal,
         -> $, $c, $tc, $tcf, $p {
@@ -241,10 +246,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitHitTestResult, guint, gpointer --> void
@@ -255,26 +260,26 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-mouse-target-changed($obj, $signal,
-        -> $, $wkhtr, $u, $p {
+        -> $, $wkhtr is copy, $u, $p {
           CATCH {
             default { .message.say; 𝒮.note($_) }
           }
 
-          # Insert object code HERE!
           unless $raw {
+            $wkhtr = WebKit::HitTestResult.new($wkhtr);
           }
 
           𝒮.emit( [self, $wkhtr, $u, $p] );
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitPermissionRequest, gpointer --> gboolean
@@ -285,7 +290,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-permission-request($obj, $signal,
         -> $, $wkpr, $p {
@@ -301,10 +306,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitPrintOperation, gpointer --> gboolean
@@ -315,7 +320,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-print($obj, $signal,
         -> $, $wkpo, $p {
@@ -331,10 +336,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitPermissionStateQuery, gpointer --> gboolean
@@ -345,7 +350,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-query-permission-state($obj, $signal,
         -> $, $wkpsq, $p {
@@ -361,10 +366,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitWebResource, WebKitURIRequest, gpointer --> void
@@ -375,7 +380,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-resource-load-started($obj, $signal,
         -> $, $wkwr, $wku, $p {
@@ -391,10 +396,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitColorChooserRequest, gpointer --> gboolean
@@ -405,7 +410,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-run-color-chooser($obj, $signal,
         -> $, $wkccr, $p {
@@ -421,10 +426,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitFileChooserRequest, gpointer --> gboolean
@@ -435,7 +440,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-run-file-chooser($obj, $signal,
         -> $, $wkfcr, $p {
@@ -451,10 +456,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitScriptDialog, gpointer --> gboolean
@@ -465,7 +470,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-script-dialog($obj, $signal,
         -> $, $wksd, $p {
@@ -481,10 +486,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitNotification, gpointer --> gboolean
@@ -495,7 +500,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-show-notification($obj, $signal,
         -> $, $wkn, $p {
@@ -511,10 +516,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitOptionMenu, GdkRectangle, gpointer --> gboolean
@@ -525,7 +530,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-show-option-menu($obj, $signal,
         -> $, $wkom, $gr, $p {
@@ -541,10 +546,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitFormSubmissionRequest, gpointer --> void
@@ -555,7 +560,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-submit-form($obj, $signal,
         -> $, $wkfsr, $p {
@@ -571,10 +576,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitUserMessage, gpointer --> gboolean
@@ -585,7 +590,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-user-message-received($obj, $signal,
         -> $, $wkum, $p {
@@ -601,10 +606,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
   # WebKitWebView, WebKitWebProcessTerminationReason, gpointer --> void
@@ -615,7 +620,7 @@ role WebKit::Roles::Signals::Web::View {
     :$raw       = False
   ) {
     my $hid;
-    %!signals-w{$signal} //= do {
+    %!signals-wv{$signal} //= do {
       my \𝒮 = Supplier.new;
       $hid = g-connect-web-process-terminated($obj, $signal,
         -> $, $wkwptr, $p {
@@ -631,10 +636,10 @@ role WebKit::Roles::Signals::Web::View {
         },
         Pointer, 0
       );
-      [ create-signal-supply(𝒮.Supply, $obj, $signal), $obj, $hid ];
+      [ create-signal-supply(𝒮, %!signals-wv, $signal), $obj, $hid ];
     };
-    %!signals-w{$signal}[0].tap(&handler) with &handler;
-    %!signals-w{$signal}[0];
+    %!signals-wv{$signal}[0].tap(&handler) with &handler;
+    %!signals-wv{$signal}[0];
   }
 
 }

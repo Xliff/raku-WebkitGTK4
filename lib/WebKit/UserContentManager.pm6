@@ -61,13 +61,13 @@ class WebKit::UserContentManager:ver<4> {
   }
 
   # WebKitUserContentManager, JSCValue, gpointer --> void
-  method Script-Message-Received {
-    self.connect-script-message-received($!wucm);
+  method Script-Message-Received ($detail) {
+    self.connect-script-message-received($!wucm, :$detail);
   }
 
   # WebKitUserContentManager, JSCValue, WebKitScriptMessageReply, gpointer --> gboolean
-  method Script-Message-With-Reply-Received {
-    self.connect-script-message-with-reply-received($!wucm);
+  method Script-Message-With-Reply-Received ($detail) {
+    self.connect-script-message-with-reply-received($!wucm, :$detail);
   }
 
   method add_filter (WebKitUserContentFilter() $filter) is also<add-filter> {
